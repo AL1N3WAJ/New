@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sweet as Cinnamoroll ✨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cormorant+Garamond:wght@300;400;600;700&family=Sacramento&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .cinnamoroll-content { max-width: 950px; margin: 0 auto; text-align: center; }
+        .cloud-text { font-size: 8rem; margin: 3rem 0; animation: float 3.5s ease-in-out infinite; filter: drop-shadow(0 0 35px rgba(147, 197, 253, 0.9)); }
+        @keyframes float { 0%, 100% { transform: translateY(0px) scale(1); } 50% { transform: translateY(-30px) scale(1.05); } }
+        .cinnamoroll-message { font-size: 1.7rem; line-height: 2.4; color: #FFE5F1; padding: 3rem; border-radius: 30px; border: 2px solid rgba(255, 182, 217, 0.4); margin: 3rem 0; font-weight: 600; background: linear-gradient(135deg, rgba(255, 107, 157, 0.15), rgba(147, 197, 253, 0.15)); backdrop-filter: blur(30px) saturate(180%); box-shadow: 0 20px 60px rgba(147, 197, 253, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1); text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9), 0 0 30px rgba(255, 107, 157, 0.8); }
+        .sweetness-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 3rem; margin-top: 4rem; }
+        .sweet-card { background: linear-gradient(135deg, rgba(147, 197, 253, 0.3), rgba(255, 182, 217, 0.3)); border: 3px solid var(--sky-blue); border-radius: 30px; padding: 3rem; transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); backdrop-filter: blur(30px) saturate(180%); box-shadow: 0 15px 50px rgba(147, 197, 253, 0.2); }
+        .sweet-card:hover { transform: scale(1.1) rotate(2deg); box-shadow: 0 25px 70px rgba(147, 197, 253, 0.5), 0 0 80px rgba(255, 107, 157, 0.3); }
+        .sweet-card-icon { font-size: 4rem; margin-bottom: 2rem; filter: drop-shadow(0 0 20px rgba(147, 197, 253, 0.7)); animation: iconFloat 4s ease-in-out infinite; }
+        .sweet-card h3 { font-family: 'Playfair Display', serif; font-size: 1.9rem; color: #FFB6D9; margin-bottom: 1.3rem; font-weight: 800; text-shadow: 0 2px 8px rgba(0, 0, 0, 1), 0 0 25px rgba(255, 107, 157, 1); }
+        .sweet-card p { font-size: 1.25rem; color: #FFFBF5; line-height: 2; text-shadow: 0 2px 10px rgba(0, 0, 0, 1), 0 0 30px rgba(56, 189, 248, 0.8); font-weight: 600; }
+        .paw-prints { display: flex; justify-content: center; gap: 2rem; margin: 4rem 0; font-size: 3rem; }
+        .paw { animation: bounce 1.2s ease-in-out infinite; filter: drop-shadow(0 0 15px rgba(255, 107, 157, 0.7)); }
+        .paw:nth-child(2) { animation-delay: 0.3s; }
+        .paw:nth-child(3) { animation-delay: 0.6s; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+    </style>
+</head>
+<body class="cinnamoroll-bg">
+    <nav class="navbar"><div class="nav-container"><a href="index.html" class="nav-logo">💫 My Universe</a><ul class="nav-menu"><li><a href="index.html" class="nav-link">Home</a></li><li><a href="astronomy.html" class="nav-link">Cosmos</a></li><li><a href="ocean.html" class="nav-link">Ocean</a></li><li><a href="cinnamoroll.html" class="nav-link active">Cinnamoroll</a></li><li><a href="nebula.html" class="nav-link">Nebula</a></li><li><a href="candle.html" class="nav-link">Make a Wish</a></li><li><a href="game.html" class="nav-link">Cat Game</a></li></ul><div class="hamburger"><span></span><span></span><span></span></div></div></nav>
+    <div class="stars" id="starfield"></div>
+    <div class="page-content"><div class="content-container">
+        <h1 class="section-title">Sweet as Cinnamoroll</h1>
+        <div class="cinnamoroll-content">
+            <div class="cloud-text">☁️✨☁️</div>
+            <div class="cinnamoroll-message">Just like Cinnamoroll floats on clouds with those adorable floppy ears, you make my heart float with happiness. Your sweetness, your gentleness, your pure heart - they remind me of this precious little pup. You bring softness and joy to every moment we share.</div>
+            <div class="sweetness-grid">
+                <div class="sweet-card"><div class="sweet-card-icon">🤍</div><h3>Pure Heart</h3><p>Like Cinnamoroll's innocent and kind nature, you have the purest, most beautiful heart I've ever known.</p></div>
+                <div class="sweet-card"><div class="sweet-card-icon">☁️</div><h3>Fluffy Love</h3><p>Being with you feels like floating on the softest clouds - light, dreamy, and absolutely perfect.</p></div>
+                <div class="sweet-card"><div class="sweet-card-icon">✨</div><h3>Magical Moments</h3><p>Every second with you is sprinkled with magic, just like Cinnamoroll's enchanting presence.</p></div>
+                <div class="sweet-card"><div class="sweet-card-icon">💙</div><h3>Baby Blue Joy</h3><p>Your favorite baby pink and blue colors remind me of Cinnamoroll's soft palette - gentle, sweet, and lovely.</p></div>
+            </div>
+            <div class="paw-prints"><span class="paw">🐾</span><span class="paw">💙</span><span class="paw">🐾</span></div>
+            <div class="cinnamoroll-message">Cinnamoroll was born on a cloud far up in the sky, and he flew down to bring happiness. You came into my life and brought me the same kind of pure, innocent joy. You're my little miracle, my cloud of happiness, my sweet Cinnamoroll in human form. Thank you for making every day feel like I'm floating on clouds.</div>
+            <div class="cloud-text">☁️💗☁️</div>
+            <p style="font-family: 'Sacramento', cursive; font-size: 3.5rem; background: linear-gradient(135deg, var(--sky-blue), var(--lavender), var(--rose-pink)); background-size: 200% 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-top: 3rem; filter: drop-shadow(0 0 20px rgba(147, 197, 253, 0.6)); animation: subtleShift 8s ease infinite;">You're sweeter than cinnamon rolls and softer than clouds 🥐☁️</p>
+        </div>
+    </div></div>
+    <script src="script.js"></script>
+</body>
+</html>

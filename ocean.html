@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep as the Ocean ✨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cormorant+Garamond:wght@300;400;600;700&family=Sacramento&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .wave-container { max-width: 1000px; margin: 0 auto; text-align: center; }
+        .wave-text { font-size: clamp(1.5rem, 3.5vw, 2rem); line-height: 2.4; background: linear-gradient(135deg, var(--sky-blue), var(--light-blue), var(--electric-blue)); background-size: 200% 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 3.5rem; font-weight: 500; animation: subtleShift 8s ease infinite; }
+        .ocean-quote { font-family: 'Sacramento', cursive; font-size: clamp(2.5rem, 6vw, 4.5rem); background: linear-gradient(135deg, var(--rose-pink), var(--lavender), var(--gold)); background-size: 200% 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin: 4rem 0; line-height: 1.7; filter: drop-shadow(0 0 20px rgba(255, 107, 157, 0.5)); animation: subtleShift 8s ease infinite; }
+        .wave-emoji { font-size: 7rem; margin: 3rem 0; animation: wave 3.5s ease-in-out infinite; filter: drop-shadow(0 0 30px rgba(56, 189, 248, 0.8)); }
+        @keyframes wave { 0%, 100% { transform: translateY(0) rotate(0deg) scale(1); } 25% { transform: translateY(-15px) rotate(-8deg) scale(1.05); } 50% { transform: translateY(0) rotate(0deg) scale(1); } 75% { transform: translateY(-15px) rotate(8deg) scale(1.05); } }
+        .ocean-depths { background: linear-gradient(135deg, rgba(8, 145, 178, 0.3), rgba(21, 94, 117, 0.3)); border: 3px solid var(--ocean-teal); border-radius: 35px; padding: 4rem; margin-top: 5rem; backdrop-filter: blur(30px) saturate(180%); box-shadow: 0 25px 70px rgba(6, 182, 212, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1); }
+        .ocean-depths h3 { font-family: 'Playfair Display', serif; font-size: 2.8rem; background: linear-gradient(135deg, var(--sky-blue), var(--light-blue), var(--electric-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 2rem; font-weight: 900; }
+        .ocean-depths p { font-size: 1.5rem; line-height: 2.2; color: rgba(255, 255, 255, 0.97); }
+        .sea-creatures { display: flex; justify-content: center; gap: 3rem; margin-top: 4rem; font-size: 4rem; flex-wrap: wrap; }
+        .sea-creature { animation: float 4.5s ease-in-out infinite; filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.7)); }
+        .sea-creature:nth-child(2) { animation-delay: 1s; }
+        .sea-creature:nth-child(3) { animation-delay: 2s; }
+        .sea-creature:nth-child(4) { animation-delay: 3s; }
+        @keyframes float { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-25px) rotate(5deg); } }
+    </style>
+</head>
+<body class="ocean-bg">
+    <nav class="navbar"><div class="nav-container"><a href="index.html" class="nav-logo">💫 My Universe</a><ul class="nav-menu"><li><a href="index.html" class="nav-link">Home</a></li><li><a href="astronomy.html" class="nav-link">Cosmos</a></li><li><a href="ocean.html" class="nav-link active">Ocean</a></li><li><a href="cinnamoroll.html" class="nav-link">Cinnamoroll</a></li><li><a href="nebula.html" class="nav-link">Nebula</a></li><li><a href="candle.html" class="nav-link">Make a Wish</a></li><li><a href="game.html" class="nav-link">Cat Game</a></li></ul><div class="hamburger"><span></span><span></span><span></span></div></div></nav>
+    <div class="stars" id="starfield"></div>
+    <div class="page-content"><div class="content-container">
+        <h1 class="section-title">Deep as the Ocean</h1>
+        <div class="wave-container">
+            <div class="wave-emoji">🌊</div>
+            <p class="wave-text">Like the ocean waves that never stop reaching for the shore, my love for you is endless and eternal. Just as you love the sea, I love the way you find peace in its depths, the way you marvel at its vastness, the way you understand that some things are meant to be infinite.</p>
+            <div class="ocean-quote">"You are the calm and the storm, my beautiful ocean"</div>
+            <div class="ocean-depths">
+                <h3>The Depths of My Love</h3>
+                <p>The ocean holds mysteries deeper than we can imagine. Scientists have explored more of outer space than the depths of our oceans. In the same way, my love for you has depths that even I haven't fully discovered yet. Every day with you, I dive deeper and find new treasures - new reasons to love you, new beautiful qualities that make you uniquely you.</p>
+                <p style="margin-top: 2rem;">Like the ocean's tides controlled by the moon, you have a gravitational pull on my heart. You move me, change me, make me better. The ocean is powerful yet peaceful, wild yet serene - just like you.</p>
+            </div>
+            <div class="sea-creatures"><span class="sea-creature">🐚</span><span class="sea-creature">🐠</span><span class="sea-creature">🐋</span><span class="sea-creature">🌺</span></div>
+            <div class="wave-emoji" style="margin-top: 4rem;">🌊</div>
+            <p class="wave-text" style="margin-top: 3rem;">Just as the ocean connects all continents, you connect all the pieces of my life. You are my horizon, my endless blue, my source of wonder and peace.</p>
+        </div>
+    </div></div>
+    <script src="script.js"></script>
+</body>
+</html>

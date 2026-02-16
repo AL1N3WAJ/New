@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Love ✨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cormorant+Garamond:wght@300;400;600;700&family=Sacramento&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .astronomy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 3rem; margin-top: 3rem; }
+        .cosmos-card { background: linear-gradient(135deg, rgba(255, 107, 157, 0.15), rgba(167, 139, 250, 0.15)); backdrop-filter: blur(30px) saturate(180%); border: 2px solid rgba(255, 107, 157, 0.3); border-radius: 30px; padding: 3rem; transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; overflow: hidden; }
+        .cosmos-card::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, var(--nebula-pink) 0%, transparent 70%); opacity: 0; transition: opacity 0.5s; }
+        .cosmos-card:hover { transform: translateY(-20px) scale(1.02); border-color: var(--rose-pink); box-shadow: 0 30px 80px rgba(244, 114, 182, 0.5), 0 0 100px rgba(167, 139, 250, 0.3); }
+        .cosmos-card:hover::before { opacity: 0.2; }
+        .cosmos-card h3 { font-family: 'Playfair Display', serif; font-size: 2.2rem; background: linear-gradient(135deg, var(--rose-pink), var(--sky-blue), var(--lavender)); background-size: 200% 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 1.5rem; position: relative; z-index: 1; font-weight: 800; animation: subtleShift 6s ease infinite; }
+        .cosmos-card p { font-size: 1.35rem; line-height: 2; color: rgba(255, 255, 255, 0.95); position: relative; z-index: 1; }
+        .constellation { text-align: center; margin-top: 5rem; padding: 4rem; background: linear-gradient(135deg, rgba(255, 107, 157, 0.1), rgba(167, 139, 250, 0.1)); backdrop-filter: blur(30px); border-radius: 30px; border: 2px solid rgba(147, 197, 253, 0.4); box-shadow: 0 20px 60px rgba(56, 189, 248, 0.2); }
+        .constellation-text { font-size: 1.6rem; line-height: 2.3; background: linear-gradient(135deg, var(--sky-blue), var(--lavender), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 500; font-style: italic; }
+    </style>
+</head>
+<body class="astronomy-bg">
+    <nav class="navbar"><div class="nav-container"><a href="index.html" class="nav-logo">💫 My Universe</a><ul class="nav-menu"><li><a href="index.html" class="nav-link">Home</a></li><li><a href="astronomy.html" class="nav-link active">Cosmos</a></li><li><a href="ocean.html" class="nav-link">Ocean</a></li><li><a href="cinnamoroll.html" class="nav-link">Cinnamoroll</a></li><li><a href="nebula.html" class="nav-link">Nebula</a></li><li><a href="candle.html" class="nav-link">Make a Wish</a></li><li><a href="game.html" class="nav-link">Cat Game</a></li></ul><div class="hamburger"><span></span><span></span><span></span></div></div></nav>
+    <div class="stars" id="starfield"></div>
+    <div class="page-content"><div class="content-container">
+        <h1 class="section-title">Our Cosmic Love</h1>
+        <div class="astronomy-grid">
+            <div class="cosmos-card"><h3>🌌 Like the Stars</h3><p>Just like how stars light up the darkest nights, you illuminate every corner of my life with your presence. Your love for astronomy reminds me that our love is as infinite as the universe itself.</p></div>
+            <div class="cosmos-card"><h3>🌙 Moon to My Earth</h3><p>You orbit my world, pulling at the tides of my heart. Even when we're apart, I know you're there, constant and beautiful, just like the moon watching over the night.</p></div>
+            <div class="cosmos-card"><h3>✨ Stardust Connection</h3><p>Scientists say we're all made of stardust. Maybe that's why I feel like I've known you across galaxies, across time. We were meant to find each other among billions of stars.</p></div>
+            <div class="cosmos-card"><h3>🪐 My Saturn</h3><p>You're beautiful and unique, adorned with rings of grace and mystery. Just like Saturn stands out among planets, you stand out in my universe as the most precious celestial body.</p></div>
+            <div class="cosmos-card"><h3>🌠 Shooting Stars</h3><p>Every moment with you is like catching a shooting star - rare, magical, and worth wishing upon. You make all my dreams come true just by being yourself.</p></div>
+            <div class="cosmos-card"><h3>🌟 My North Star</h3><p>In the vast expanse of space and time, you are my constant guide. Like sailors following the North Star home, I will always find my way back to you.</p></div>
+        </div>
+        <div class="constellation"><p class="constellation-text">"In a universe of billions of stars, billions of planets, billions of possibilities... my favorite miracle is finding you. You are my constellation, my galaxy, my entire cosmos."</p></div>
+    </div></div>
+    <script src="script.js"></script>
+</body>
+</html>

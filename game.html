@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cat Game - Our Universe ✨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cormorant+Garamond:wght@300;400;600;700&family=Sacramento&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .game-container { max-width: 950px; margin: 0 auto; background: linear-gradient(135deg, rgba(255, 107, 157, 0.2), rgba(167, 139, 250, 0.2)); backdrop-filter: blur(40px) saturate(200%); border: 4px solid; border-image: linear-gradient(135deg, var(--rose-pink), var(--sky-blue), var(--lavender)) 1; border-radius: 35px; padding: 3rem; box-shadow: 0 30px 90px rgba(244, 114, 182, 0.4), 0 0 120px rgba(167, 139, 250, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15); }
+        .game-canvas { width: 100%; max-width: 750px; height: 480px; background: linear-gradient(135deg, rgba(10, 14, 39, 0.9), rgba(30, 27, 75, 0.9)); border: 4px solid; border-image: linear-gradient(135deg, var(--sky-blue), var(--rose-pink), var(--lavender)) 1; border-radius: 25px; margin: 2.5rem auto; display: block; cursor: crosshair; position: relative; box-shadow: 0 15px 60px rgba(0, 0, 0, 0.6), inset 0 0 40px rgba(255, 107, 157, 0.15), inset 0 0 60px rgba(167, 139, 250, 0.1); }
+        .game-info { display: flex; justify-content: space-around; margin-top: 2rem; font-size: 1.7rem; font-weight: 800; flex-wrap: wrap; gap: 2rem; }
+        .game-stat { background: linear-gradient(135deg, rgba(255, 107, 157, 0.3), rgba(167, 139, 250, 0.3)); padding: 1rem 2.5rem; border-radius: 25px; border: 2px solid rgba(255, 107, 157, 0.4); backdrop-filter: blur(20px); box-shadow: 0 8px 30px rgba(244, 114, 182, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15); transition: all 0.3s; }
+        .game-stat:hover { transform: translateY(-5px); box-shadow: 0 12px 40px rgba(244, 114, 182, 0.5); }
+        .game-stat span { background: linear-gradient(135deg, var(--rose-pink), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 2rem; font-weight: 900; filter: drop-shadow(0 0 10px rgba(255, 107, 157, 0.5)); }
+        .game-instructions { text-align: center; margin-bottom: 2rem; background: linear-gradient(135deg, var(--soft-pink), var(--lavender)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 1.4rem; line-height: 2; font-weight: 600; }
+        .game-instructions strong { background: linear-gradient(135deg, var(--rose-pink), var(--lavender), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 1.5rem; }
+        .game-btn { background: linear-gradient(135deg, #FF1493, #8b5cf6, #06b6d4); color: white; border: none; padding: 1.4rem 3.5rem; border-radius: 40px; font-size: 1.5rem; cursor: pointer; font-family: 'Cormorant Garamond', serif; font-weight: 800; transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: block; margin: 0 auto; box-shadow: 0 15px 45px rgba(255, 20, 147, 0.6), 0 0 70px rgba(139, 92, 246, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3); position: relative; overflow: hidden; letter-spacing: 1px; }
+        .game-btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent); transition: left 0.7s; }
+        .game-btn:hover::before { left: 100%; }
+        .game-btn:hover { transform: translateY(-6px) scale(1.05); box-shadow: 0 20px 55px rgba(255, 20, 147, 0.8), 0 0 90px rgba(139, 92, 246, 0.6); }
+        .game-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        .win-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); z-index: 2000; justify-content: center; align-items: center; animation: fadeIn 0.6s; backdrop-filter: blur(15px); }
+        .win-modal.active { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .win-content { background: linear-gradient(135deg, rgba(30, 58, 138, 0.98), rgba(123, 44, 191, 0.98)); border: 5px solid; border-image: linear-gradient(135deg, var(--rose-pink), var(--sky-blue), var(--lavender), var(--gold)) 1; border-radius: 40px; padding: 4rem; max-width: 700px; text-align: center; animation: slideUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; overflow: hidden; box-shadow: 0 40px 100px rgba(244, 114, 182, 0.7), 0 0 150px rgba(167, 139, 250, 0.5); }
+        @keyframes slideUp { from { transform: translateY(150px) scale(0.7); opacity: 0; } to { transform: translateY(0) scale(1); opacity: 1; } }
+        .win-content::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255, 107, 157, 0.3) 0%, transparent 70%); animation: rotate 20s linear infinite; }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .win-emoji { font-size: 8rem; margin-bottom: 2rem; animation: celebrate 1s ease-in-out infinite; position: relative; z-index: 1; filter: drop-shadow(0 0 30px rgba(255, 107, 157, 1)); }
+        @keyframes celebrate { 0%, 100% { transform: scale(1) rotate(0deg); } 25% { transform: scale(1.3) rotate(-15deg); } 50% { transform: scale(1) rotate(0deg); } 75% { transform: scale(1.3) rotate(15deg); } }
+        .win-title { font-family: 'Sacramento', cursive; font-size: 4.5rem; background: linear-gradient(135deg, #FF6B9D, #38bdf8, #a78bfa, #fbbf24); background-size: 300% 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 2rem; position: relative; z-index: 1; filter: drop-shadow(0 0 20px rgba(255, 107, 157, 0.8)); animation: rainbowShift 6s ease infinite; }
+        .win-message { font-size: 1.6rem; line-height: 2.2; color: var(--soft-pink); margin-bottom: 2rem; position: relative; z-index: 1; }
+        .win-score { font-family: 'Playfair Display', serif; font-size: 2.5rem; background: linear-gradient(135deg, var(--rose-pink), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin: 2rem 0; font-weight: 900; position: relative; z-index: 1; filter: drop-shadow(0 0 15px rgba(255, 107, 157, 0.6)); }
+        .close-btn { background: linear-gradient(135deg, var(--rose-pink), var(--sky-blue)); color: white; border: none; padding: 1.2rem 3rem; border-radius: 30px; font-size: 1.3rem; cursor: pointer; font-family: 'Cormorant Garamond', serif; font-weight: 800; margin-top: 2rem; transition: all 0.4s; position: relative; z-index: 1; box-shadow: 0 10px 35px rgba(255, 107, 157, 0.5); }
+        .close-btn:hover { transform: scale(1.08); box-shadow: 0 15px 45px rgba(255, 107, 157, 0.7); }
+        .floating-hearts { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1999; }
+        .floating-heart { position: absolute; font-size: 3rem; opacity: 0; animation: floatUp 3.5s ease-out forwards; filter: drop-shadow(0 0 15px rgba(255, 107, 157, 1)); }
+        @keyframes floatUp { 0% { opacity: 1; transform: translateY(0) scale(0) rotate(0deg); } 50% { opacity: 1; transform: translateY(-350px) scale(1) rotate(180deg); } 100% { opacity: 0; transform: translateY(-700px) scale(0.5) rotate(360deg); } }
+    </style>
+</head>
+<body class="game-bg">
+    <nav class="navbar"><div class="nav-container"><a href="index.html" class="nav-logo">💫 My Universe</a><ul class="nav-menu"><li><a href="index.html" class="nav-link">Home</a></li><li><a href="astronomy.html" class="nav-link">Cosmos</a></li><li><a href="ocean.html" class="nav-link">Ocean</a></li><li><a href="cinnamoroll.html" class="nav-link">Cinnamoroll</a></li><li><a href="nebula.html" class="nav-link">Nebula</a></li><li><a href="candle.html" class="nav-link">Make a Wish</a></li><li><a href="game.html" class="nav-link active">Cat Game</a></li></ul><div class="hamburger"><span></span><span></span><span></span></div></div></nav>
+    <div class="stars" id="starfield"></div>
+    <div class="floating-hearts" id="floatingHearts"></div>
+    <div class="win-modal" id="winModal">
+        <div class="win-content">
+            <div class="win-emoji">🎉🐱💖</div>
+            <h2 class="win-title">You Did It, My Love!</h2>
+            <p class="win-score">You caught <span id="finalScore">0</span> kitties! 🎊</p>
+            <p class="win-message">Just like you caught all these adorable cats, you've caught my heart completely! Every moment with you is a victory, every day with you is a celebration. You make me smile like these playful kitties make us happy.</p>
+            <p class="win-message" style="font-family: 'Sacramento', cursive; font-size: 2.8rem; background: linear-gradient(135deg, var(--rose-pink), var(--gold), var(--lavender)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-top: 2rem; filter: drop-shadow(0 0 15px rgba(255, 107, 157, 0.5));">I wish for us to always be this happy, this playful, this in love. Here's to catching every beautiful moment together! 💕✨</p>
+            <button class="close-btn" onclick="closeModal()">Continue Our Journey 💖</button>
+        </div>
+    </div>
+    <div class="page-content"><div class="content-container">
+        <h1 class="section-title">Catch the Kitties! 🐱</h1>
+        <div class="game-container">
+            <p class="game-instructions"><strong>Click on the moving cats to catch them!</strong> 🎯<br>Catch as many as you can in 30 seconds!</p>
+            <canvas id="gameCanvas" class="game-canvas"></canvas>
+            <div class="game-info">
+                <div class="game-stat">Score: <span id="score">0</span> 🐾</div>
+                <div class="game-stat">Time: <span id="timer">30</span>s ⏰</div>
+            </div>
+            <div style="text-align: center; margin-top: 2.5rem;">
+                <button id="startBtn" class="game-btn">Start Game 🎮</button>
+            </div>
+        </div>
+    </div></div>
+    <script src="script.js"></script>
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const startBtn = document.getElementById('startBtn');
+        const scoreDisplay = document.getElementById('score');
+        const timerDisplay = document.getElementById('timer');
+        const winModal = document.getElementById('winModal');
+        const finalScoreDisplay = document.getElementById('finalScore');
+        let score = 0, timeLeft = 30, gameActive = false, cats = [], gameInterval, catSpawnInterval;
+        let catImages = [], imagesLoaded = false;
+        canvas.width = 750;
+        canvas.height = 480;
+        const catEmojis = ['🐱', '😺', '😸', '😹', '😻', '🐈', '🐈‍⬛', '😼', '😽'];
+        const imagePaths = ['cats/cat1.jpg', 'cats/cat2.jpg', 'cats/cat3.jpg', 'cats/cat4.jpg', 'cats/cat5.jpg'];
+        let loadedImages = 0;
+        imagePaths.forEach(path => {
+            const img = new Image();
+            img.onload = () => { catImages.push(img); loadedImages++; if (loadedImages === imagePaths.length) imagesLoaded = true; };
+            img.onerror = () => loadedImages++;
+            img.src = path;
+        });
+        class Cat {
+            constructor() {
+                this.useImage = imagesLoaded && catImages.length > 0;
+                if (this.useImage) this.image = catImages[Math.floor(Math.random() * catImages.length)];
+                else this.emoji = catEmojis[Math.floor(Math.random() * catEmojis.length)];
+                this.size = 70; this.x = Math.random() * (canvas.width - this.size);
+                this.y = Math.random() * (canvas.height - this.size);
+                this.vx = (Math.random() - 0.5) * 7; this.vy = (Math.random() - 0.5) * 7;
+                this.lifetime = 0; this.rotation = 0; this.rotationSpeed = (Math.random() - 0.5) * 0.12;
+            }
+            update() {
+                this.x += this.vx; this.y += this.vy; this.lifetime++; this.rotation += this.rotationSpeed;
+                if (this.x <= 0 || this.x >= canvas.width - this.size) { this.vx *= -1; this.x = Math.max(0, Math.min(canvas.width - this.size, this.x)); }
+                if (this.y <= 0 || this.y >= canvas.height - this.size) { this.vy *= -1; this.y = Math.max(0, Math.min(canvas.height - this.size, this.y)); }
+            }
+            draw() {
+                ctx.save(); ctx.translate(this.x + this.size / 2, this.y + this.size / 2); ctx.rotate(this.rotation);
+                if (this.useImage) {
+                    ctx.shadowColor = 'rgba(255, 107, 157, 1)'; ctx.shadowBlur = 20;
+                    ctx.beginPath(); ctx.arc(0, 0, this.size / 2, 0, Math.PI * 2);
+                    ctx.closePath(); ctx.clip();
+                    ctx.drawImage(this.image, -this.size / 2, -this.size / 2, this.size, this.size);
+                } else {
+                    ctx.font = this.size + 'px Arial'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                    ctx.shadowColor = 'rgba(255, 107, 157, 1)'; ctx.shadowBlur = 15;
+                    ctx.fillText(this.emoji, 0, 0);
+                }
+                ctx.restore();
+            }
+            contains(mouseX, mouseY) {
+                const centerX = this.x + this.size / 2, centerY = this.y + this.size / 2;
+                return Math.sqrt(Math.pow(mouseX - centerX, 2) + Math.pow(mouseY - centerY, 2)) <= this.size / 2;
+            }
+        }
+        function spawnCat() { if (gameActive && cats.length < 12) cats.push(new Cat()); }
+        function gameLoop() {
+            if (!gameActive) return;
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            gradient.addColorStop(0, 'rgba(10, 14, 39, 0.9)'); gradient.addColorStop(1, 'rgba(30, 27, 75, 0.9)');
+            ctx.fillStyle = gradient; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            cats.forEach(cat => { cat.update(); cat.draw(); });
+            cats = cats.filter(cat => cat.lifetime < 280);
+            requestAnimationFrame(gameLoop);
+        }
+        canvas.addEventListener('click', (e) => {
+            if (!gameActive) return;
+            const rect = canvas.getBoundingClientRect(), scaleX = canvas.width / rect.width, scaleY = canvas.height / rect.height;
+            const mouseX = (e.clientX - rect.left) * scaleX, mouseY = (e.clientY - rect.top) * scaleY;
+            for (let i = cats.length - 1; i >= 0; i--) {
+                if (cats[i].contains(mouseX, mouseY)) { score++; scoreDisplay.textContent = score; cats.splice(i, 1); createFloatingHeart(e.clientX, e.clientY); break; }
+            }
+        });
+        function createFloatingHeart(x, y) {
+            const heart = document.createElement('div'); heart.className = 'floating-heart';
+            heart.textContent = ['💖', '💕', '💗', '💝', '🌟', '✨'][Math.floor(Math.random() * 6)];
+            heart.style.left = x + 'px'; heart.style.top = y + 'px';
+            document.getElementById('floatingHearts').appendChild(heart);
+            setTimeout(() => heart.remove(), 3500);
+        }
+        startBtn.addEventListener('click', () => {
+            if (gameActive) return;
+            score = 0; timeLeft = 30; cats = []; gameActive = true;
+            scoreDisplay.textContent = score; timerDisplay.textContent = timeLeft;
+            startBtn.textContent = 'Playing... 🎮'; startBtn.disabled = true;
+            gameLoop(); catSpawnInterval = setInterval(spawnCat, 550);
+            gameInterval = setInterval(() => {
+                timeLeft--; timerDisplay.textContent = timeLeft;
+                if (timeLeft <= 0) endGame();
+            }, 1000);
+        });
+        function endGame() {
+            gameActive = false; clearInterval(gameInterval); clearInterval(catSpawnInterval);
+            startBtn.textContent = 'Play Again 🔄'; startBtn.disabled = false;
+            finalScoreDisplay.textContent = score; winModal.classList.add('active');
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div'); heart.className = 'floating-heart';
+                    heart.textContent = ['💖', '💕', '💗', '💝', '🐱', '😻', '🌟', '✨'][Math.floor(Math.random() * 8)];
+                    heart.style.left = Math.random() * window.innerWidth + 'px';
+                    heart.style.top = window.innerHeight + 'px';
+                    document.getElementById('floatingHearts').appendChild(heart);
+                    setTimeout(() => heart.remove(), 3500);
+                }, i * 120);
+            }
+        }
+        function closeModal() { winModal.classList.remove('active'); }
+        winModal.addEventListener('click', (e) => { if (e.target === winModal) closeModal(); });
+    </script>
+</body>
+</html>

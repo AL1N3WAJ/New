@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make a Wish 🎂✨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cormorant+Garamond:wght@300;400;600;700&family=Sacramento&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .candle-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            padding: 2rem;
+        }
+
+        .candle-container {
+            text-align: center;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .candle-title {
+            font-family: 'Sacramento', cursive;
+            font-size: clamp(3rem, 8vw, 6rem);
+            background: linear-gradient(135deg, #FF6B9D, #fbbf24, #a78bfa);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2rem;
+            animation: rainbowShift 6s ease infinite;
+            filter: drop-shadow(0 0 20px rgba(255, 107, 157, 0.6));
+        }
+
+        .candle-subtitle {
+            font-size: clamp(1.3rem, 3vw, 2rem);
+            background: linear-gradient(135deg, var(--soft-pink), var(--lavender));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 3rem;
+            font-weight: 500;
+        }
+
+        /* Cake */
+        .cake-wrapper {
+            position: relative;
+            display: inline-block;
+            margin: 2rem auto;
+            animation: cakeEntrance 1.5s ease-out 0.5s both;
+        }
+
+        @keyframes cakeEntrance {
+            0% {
+                opacity: 0;
+                transform: translateY(100px) scale(0.8);
+            }
+            60% {
+                transform: translateY(-20px) scale(1.05);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .cake {
+            width: 300px;
+            height: 250px;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        /* Cake layers */
+        .cake-layer {
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(135deg, #ff85a1, #ff6b9d);
+            border-radius: 20px;
+            position: absolute;
+            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.4),
+                        inset 0 -5px 15px rgba(0, 0, 0, 0.2),
+                        inset 0 5px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .cake-layer.layer-1 {
+            bottom: 0;
+            width: 100%;
+        }
+
+        .cake-layer.layer-2 {
+            bottom: 70px;
+            width: 85%;
+            left: 7.5%;
+            background: linear-gradient(135deg, #ffa4c0, #ff85a1);
+        }
+
+        .cake-layer.layer-3 {
+            bottom: 140px;
+            width: 70%;
+            left: 15%;
+            background: linear-gradient(135deg, #ffc4d6, #ffa4c0);
+        }
+
+        /* Frosting details */
+        .frosting {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 15px;
+            background: white;
+            border-radius: 0 0 20px 20px;
+            opacity: 0.9;
+        }
+
+        .frosting-drip {
+            position: absolute;
+            width: 20px;
+            height: 30px;
+            background: white;
+            border-radius: 0 0 10px 10px;
+            opacity: 0.9;
+        }
+
+        .frosting-drip:nth-child(1) { left: 20%; }
+        .frosting-drip:nth-child(2) { left: 45%; }
+        .frosting-drip:nth-child(3) { left: 70%; }
+
+        /* Candle */
+        .candle {
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 80px;
+            background: linear-gradient(to right, #fff9c4, #fff59d);
+            border-radius: 5px 5px 0 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3),
+                        inset 2px 0 5px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .candle::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 8px;
+            background: #444;
+            border-radius: 50%;
+        }
+
+        /* Flame */
+        .flame {
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 45px;
+            background: radial-gradient(ellipse at center bottom, 
+                        yellow 0%, 
+                        orange 40%, 
+                        orangered 60%, 
+                        transparent 80%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: flicker 0.3s infinite alternate;
+            filter: drop-shadow(0 0 15px orange) 
+                    drop-shadow(0 0 30px rgba(255, 165, 0, 0.8));
+            z-index: 2;
+            opacity: 1;
+            transition: all 1s ease-out;
+        }
+
+        .flame.blown {
+            opacity: 0;
+            transform: translateX(-50%) translateY(-50px) scale(0);
+        }
+
+        @keyframes flicker {
+            0% { 
+                transform: translateX(-50%) scale(1) translateY(0); 
+                filter: drop-shadow(0 0 15px orange) drop-shadow(0 0 30px rgba(255, 165, 0, 0.8));
+            }
+            100% { 
+                transform: translateX(-50%) scale(1.05) translateY(-2px); 
+                filter: drop-shadow(0 0 20px orange) drop-shadow(0 0 40px rgba(255, 165, 0, 1));
+            }
+        }
+
+        /* Flame glow */
+        .flame-glow {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, rgba(255, 165, 0, 0.6) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: glow 1s infinite alternate;
+            opacity: 1;
+            transition: opacity 1s ease-out;
+        }
+
+        .flame-glow.blown {
+            opacity: 0;
+        }
+
+        @keyframes glow {
+            0% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+            100% { opacity: 1; transform: translateX(-50%) scale(1.2); }
+        }
+
+        /* Smoke */
+        .smoke {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            width: 3px;
+            height: 0;
+            background: rgba(150, 150, 150, 0.5);
+            border-radius: 50%;
+            opacity: 0;
+            transform: translateX(-50%);
+        }
+
+        .smoke.active {
+            animation: smoke-rise 2s ease-out forwards;
+        }
+
+        @keyframes smoke-rise {
+            0% {
+                opacity: 0.7;
+                height: 0;
+                transform: translateX(-50%) translateY(0);
+            }
+            100% {
+                opacity: 0;
+                height: 100px;
+                transform: translateX(-50%) translateY(-100px) scale(3);
+            }
+        }
+
+        /* Countdown */
+        .countdown {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(4rem, 12vw, 10rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #FF6B9D, #fbbf24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 2rem 0;
+            opacity: 0;
+            transform: scale(0);
+            filter: drop-shadow(0 0 30px rgba(255, 107, 157, 0.8));
+        }
+
+        .countdown.active {
+            animation: countdownPulse 1s ease-out;
+        }
+
+        @keyframes countdownPulse {
+            0% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.3);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+        }
+
+        /* Start Button */
+        .start-btn {
+            padding: 1.5rem 4rem;
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #FF1493, #8b5cf6, #06b6d4);
+            color: white;
+            border: none;
+            border-radius: 60px;
+            cursor: pointer;
+            box-shadow: 0 15px 50px rgba(255, 20, 147, 0.5),
+                        0 0 60px rgba(139, 92, 246, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-family: 'Cormorant Garamond', serif;
+            letter-spacing: 1px;
+            margin-top: 2rem;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 20px 60px rgba(255, 20, 147, 0.7),
+                        0 0 80px rgba(139, 92, 246, 0.5);
+        }
+
+        .start-btn.hidden {
+            display: none;
+        }
+
+        /* Wish Message */
+        .wish-message {
+            opacity: 0;
+            transform: translateY(30px);
+            margin-top: 3rem;
+            max-width: 800px;
+        }
+
+        .wish-message.show {
+            animation: wishAppear 2s ease-out forwards;
+        }
+
+        @keyframes wishAppear {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .wish-text {
+            font-family: 'Sacramento', cursive;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            background: linear-gradient(135deg, #FF6B9D, #fbbf24, #a78bfa);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            animation: rainbowShift 6s ease infinite;
+            filter: drop-shadow(0 0 20px rgba(255, 107, 157, 0.5));
+            line-height: 1.5;
+        }
+
+        .wish-subtext {
+            font-size: clamp(1.3rem, 3vw, 1.8rem);
+            background: linear-gradient(135deg, var(--soft-pink), var(--lavender));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 2;
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            top: -10px;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        .confetti.active {
+            animation: confetti-fall 3s ease-out forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                opacity: 1;
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(100vh) rotate(720deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">💫 My Universe</a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="astronomy.html" class="nav-link">Cosmos</a></li>
+                <li><a href="ocean.html" class="nav-link">Ocean</a></li>
+                <li><a href="cinnamoroll.html" class="nav-link">Cinnamoroll</a></li>
+                <li><a href="nebula.html" class="nav-link">Nebula</a></li>
+                <li><a href="candle.html" class="nav-link active">Make a Wish</a></li>
+                <li><a href="game.html" class="nav-link">Cat Game</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="stars" id="starfield"></div>
+
+    <div class="candle-page">
+        <div class="candle-container">
+            <h1 class="candle-title">Make a Wish, My Love</h1>
+            <p class="candle-subtitle">Close your eyes and make the most beautiful wish... ✨</p>
+
+            <div class="countdown" id="countdown"></div>
+
+            <div class="cake-wrapper">
+                <div class="cake">
+                    <!-- Candle -->
+                    <div class="candle">
+                        <div class="flame-glow" id="flameGlow"></div>
+                        <div class="flame" id="flame"></div>
+                        <div class="smoke" id="smoke"></div>
+                    </div>
+
+                    <!-- Cake layers -->
+                    <div class="cake-layer layer-3"></div>
+                    <div class="cake-layer layer-2"></div>
+                    <div class="cake-layer layer-1">
+                        <div class="frosting">
+                            <div class="frosting-drip"></div>
+                            <div class="frosting-drip"></div>
+                            <div class="frosting-drip"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="start-btn hidden" id="startBtn">Start Countdown 🎂</button>
+
+            <div class="wish-message" id="wishMessage">
+                <p class="wish-text">May all your dreams come true! 💖</p>
+                <p class="wish-subtext">
+                    Happy Birthday to You Fariba. Just like this candle brings light to the darkness, you bring joy to my life. 
+                    Every moment with you is a celebration. Here's to many more Birthdays together! 
+                    I love you to the stars and back! 🌟💕
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        const startBtn = document.getElementById('startBtn');
+        const countdown = document.getElementById('countdown');
+        const flame = document.getElementById('flame');
+        const flameGlow = document.getElementById('flameGlow');
+        const smoke = document.getElementById('smoke');
+        const wishMessage = document.getElementById('wishMessage');
+
+        // Auto-start on page load
+        window.addEventListener('load', () => {
+            setTimeout(startCelebration, 1500); // Wait 1.5 seconds for cake entrance animation
+        });
+
+        function startCelebration() {
+            
+            // Start countdown: 3, 2, 1
+            let count = 3;
+            countdown.textContent = count;
+            countdown.classList.add('active');
+
+            const countInterval = setInterval(() => {
+                count--;
+                if (count > 0) {
+                    countdown.textContent = count;
+                    countdown.classList.remove('active');
+                    setTimeout(() => countdown.classList.add('active'), 50);
+                } else {
+                    clearInterval(countInterval);
+                    countdown.style.display = 'none';
+                    blowCandle();
+                }
+            }, 1000);
+        }
+
+        function blowCandle() {
+            // Blow out the flame
+            flame.classList.add('blown');
+            flameGlow.classList.add('blown');
+            
+            // Show smoke
+            setTimeout(() => {
+                smoke.classList.add('active');
+            }, 500);
+
+            // Create confetti
+            setTimeout(() => {
+                createConfetti();
+            }, 800);
+
+            // Show wish message
+            setTimeout(() => {
+                wishMessage.classList.add('show');
+            }, 1500);
+        }
+
+        function createConfetti() {
+            const colors = ['#FF6B9D', '#fbbf24', '#a78bfa', '#38bdf8', '#ff85a1', '#ffc4d6'];
+            
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.width = (Math.random() * 10 + 5) + 'px';
+                    confetti.style.height = (Math.random() * 10 + 5) + 'px';
+                    confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                    
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.classList.add('active'), 50);
+                    setTimeout(() => confetti.remove(), 3500);
+                }, i * 30);
+            }
+        }
+    </script>
+</body>
+</html>
