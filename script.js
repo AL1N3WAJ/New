@@ -268,3 +268,158 @@ rippleStyle.textContent = `
 document.head.appendChild(rippleStyle);
 
 console.log('✨ ULTIMATE Premium Effects Loaded! ✨');
+
+// ===== MUSIC PLAYER WITH REAL TRACKS =====
+(function () {
+    const TRACKS = [
+        { title: "Blue",             artist: "Yung Kai (Slowed)",         src: "assets/music/blue.mp3" },
+        { title: "Can't Help Falling in Love", artist: "Elvis Presley",   src: "assets/music/cant_help_falling_in_love.mp3" },
+        { title: "I Wanna Be Yours", artist: "Arctic Monkeys",            src: "assets/music/i_wanna_be_yours.mp3" },
+        { title: "My Everything",    artist: "Owl City",                  src: "assets/music/my_everything.mp3" },
+        { title: "You Are My Sunshine", artist: "Christina Perri",                src: "assets/music/you_are_my_sunshine.mp3" },
+    ];
+
+    let currentIndex = 0;
+    let isPlaying = false;
+    let isMuted = false;
+    let currentVolume = 0.5;
+
+    // ── Build HTML ──────────────────────────────────────────────────
+    const playerHTML = `
+    <div class="music-player" id="musicPlayer">
+        <button class="music-nav-btn" id="prevBtn" title="Previous">&#9664;</button>
+        <button class="music-toggle" id="musicToggle" title="Play / Pause">&#9654;</button>
+        <button class="music-nav-btn" id="nextBtn" title="Next">&#9654;&#9654;</button>
+        <div class="music-bars" id="musicBars">
+            <div class="music-bar"></div>
+            <div class="music-bar"></div>
+            <div class="music-bar"></div>
+            <div class="music-bar"></div>
+        </div>
+        <div class="music-info">
+            <span class="music-title" id="musicTitle">${TRACKS[0].title}</span>
+            <span class="music-artist" id="musicArtist">${TRACKS[0].artist}</span>
+        </div>
+        <div class="music-track-dots" id="trackDots"></div>
+        <div class="volume-control">
+            <span class="volume-icon" id="volumeIcon" title="Mute / Unmute">&#128266;</span>
+            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.05" value="0.5">
+        </div>
+    </div>`;
+
+    document.body.insertAdjacentHTML('beforeend', playerHTML);
+
+    // ── DOM refs ─────────────────────────────────────────────────────
+    const toggleBtn    = document.getElementById('musicToggle');
+    const prevBtn      = document.getElementById('prevBtn');
+    const nextBtn      = document.getElementById('nextBtn');
+    const musicTitle   = document.getElementById('musicTitle');
+    const musicArtist  = document.getElementById('musicArtist');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const volumeIcon   = document.getElementById('volumeIcon');
+    const musicBars    = document.getElementById('musicBars');
+    const trackDots    = document.getElementById('trackDots');
+
+    // ── Create audio element ─────────────────────────────────────────
+    const audio = new Audio();
+    audio.volume = currentVolume;
+    audio.preload = 'none';
+
+    // ── Track dots ───────────────────────────────────────────────────
+    function buildDots() {
+        trackDots.innerHTML = '';
+        TRACKS.forEach((_, i) => {
+            const dot = document.createElement('span');
+            dot.className = 'track-dot' + (i === currentIndex ? ' active' : '');
+            dot.dataset.index = i;
+            dot.title = TRACKS[i].title;
+            dot.addEventListener('click', () => loadTrack(i, true));
+            trackDots.appendChild(dot);
+        });
+    }
+    buildDots();
+
+    function updateDots() {
+        trackDots.querySelectorAll('.track-dot').forEach((d, i) => {
+            d.classList.toggle('active', i === currentIndex);
+        });
+    }
+
+    // ── Load & play ───────────────────────────────────────────────────
+    function loadTrack(index, autoPlay) {
+        currentIndex = (index + TRACKS.length) % TRACKS.length;
+        const track = TRACKS[currentIndex];
+        audio.src = track.src;
+        musicTitle.textContent  = track.title;
+        musicArtist.textContent = track.artist;
+        updateDots();
+
+        // Animate title
+        musicTitle.style.animation = 'none';
+        void musicTitle.offsetWidth;
+        musicTitle.style.animation = 'trackSlideIn 0.4s ease-out';
+
+        if (autoPlay) {
+            audio.play().then(() => {
+                setPlayingState(true);
+            }).catch(() => setPlayingState(false));
+        }
+    }
+
+    function setPlayingState(playing) {
+        isPlaying = playing;
+        if (playing) {
+            toggleBtn.innerHTML = '&#9646;&#9646;';
+            toggleBtn.classList.add('playing');
+            musicBars.classList.add('active');
+        } else {
+            toggleBtn.innerHTML = '&#9654;';
+            toggleBtn.classList.remove('playing');
+            musicBars.classList.remove('active');
+        }
+    }
+
+    // ── Controls ──────────────────────────────────────────────────────
+    toggleBtn.addEventListener('click', () => {
+        if (isPlaying) {
+            audio.pause();
+            setPlayingState(false);
+        } else {
+            if (!audio.src || audio.src === window.location.href) {
+                loadTrack(currentIndex, true);
+            } else {
+                audio.play().then(() => setPlayingState(true)).catch(() => {});
+            }
+        }
+    });
+
+    prevBtn.addEventListener('click', () => loadTrack(currentIndex - 1, isPlaying));
+    nextBtn.addEventListener('click', () => loadTrack(currentIndex + 1, isPlaying));
+
+    // Auto-advance
+    audio.addEventListener('ended', () => loadTrack(currentIndex + 1, true));
+
+    // ── Volume ────────────────────────────────────────────────────────
+    volumeSlider.addEventListener('input', (e) => {
+        currentVolume = parseFloat(e.target.value);
+        audio.volume = isMuted ? 0 : currentVolume;
+        updateVolumeIcon();
+    });
+
+    volumeIcon.addEventListener('click', () => {
+        isMuted = !isMuted;
+        audio.volume = isMuted ? 0 : currentVolume;
+        updateVolumeIcon();
+    });
+
+    function updateVolumeIcon() {
+        if (isMuted || currentVolume === 0) volumeIcon.innerHTML = '&#128263;';
+        else if (currentVolume < 0.5)       volumeIcon.innerHTML = '&#128265;';
+        else                                 volumeIcon.innerHTML = '&#128266;';
+    }
+
+    // Pre-load first track path (no autoplay)
+    audio.src = TRACKS[0].src;
+
+    console.log('🎵 Music Player with 5 tracks loaded!');
+})();
